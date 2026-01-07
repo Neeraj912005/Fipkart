@@ -132,8 +132,21 @@
             </div>
             <div id="nav3">
                 <div id="nav3-video">
-                    <video  autoplay loop muted src="./video.mp4"></video>
+                    <video id="main-video" autoplay loop muted playsinline src="./video.mp4"></video>
+                    <div id="video-overlay">
+                        <div id="video-controls">
+                            <button id="play-pause-btn" class="video-btn">
+                                <i class="ri-pause-line" id="play-pause-icon"></i>
+                            </button>
+                            <button id="mute-unmute-btn" class="video-btn">
+                                <i class="ri-volume-up-line" id="mute-icon"></i>
+                            </button>
+                            <button id="fullscreen-btn" class="video-btn">
+                                <i class="ri-fullscreen-line"></i>
+                            </button>
+                        </div>
                     </div>
+                </div>
             </div>
         </div>
         <div id="nav4">
@@ -290,6 +303,89 @@
             
         </div>
     
-    
+    <script>
+        // Video Controls Functionality
+        const video = document.getElementById('main-video');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const playPauseIcon = document.getElementById('play-pause-icon');
+        const muteUnmuteBtn = document.getElementById('mute-unmute-btn');
+        const muteIcon = document.getElementById('mute-icon');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const videoContainer = document.getElementById('nav3-video');
+
+        // Play/Pause functionality
+        playPauseBtn.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                playPauseIcon.className = 'ri-pause-line';
+            } else {
+                video.pause();
+                playPauseIcon.className = 'ri-play-line';
+            }
+        });
+
+        // Mute/Unmute functionality
+        muteUnmuteBtn.addEventListener('click', () => {
+            if (video.muted) {
+                video.muted = false;
+                muteIcon.className = 'ri-volume-up-line';
+            } else {
+                video.muted = true;
+                muteIcon.className = 'ri-volume-mute-line';
+            }
+        });
+
+        // Fullscreen functionality
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                videoContainer.requestFullscreen().catch(err => {
+                    console.log('Error attempting to enable fullscreen:', err);
+                });
+                fullscreenBtn.querySelector('i').className = 'ri-fullscreen-exit-line';
+            } else {
+                document.exitFullscreen();
+                fullscreenBtn.querySelector('i').className = 'ri-fullscreen-line';
+            }
+        });
+
+        // Update icon when fullscreen changes
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                fullscreenBtn.querySelector('i').className = 'ri-fullscreen-exit-line';
+            } else {
+                fullscreenBtn.querySelector('i').className = 'ri-fullscreen-line';
+            }
+        });
+
+        // Update play/pause icon when video ends
+        video.addEventListener('ended', () => {
+            playPauseIcon.className = 'ri-play-line';
+        });
+
+        // Show controls on video click
+        video.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                playPauseIcon.className = 'ri-pause-line';
+            } else {
+                video.pause();
+                playPauseIcon.className = 'ri-play-line';
+            }
+        });
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement === document.body) {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    playPauseBtn.click();
+                } else if (e.code === 'KeyM') {
+                    muteUnmuteBtn.click();
+                } else if (e.code === 'KeyF') {
+                    fullscreenBtn.click();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
