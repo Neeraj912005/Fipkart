@@ -325,16 +325,108 @@ body {
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease;
+    position: relative;
+    background: #000;
 }
 
 #nav3-video:hover {
     transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(40, 116, 240, 0.3);
 }
 
-#nav3-video video {
+#nav3-video:hover #video-overlay {
+    opacity: 1;
+}
+
+#main-video {
     width: 100%;
     height: auto;
     display: block;
+    min-height: 400px;
+    object-fit: cover;
+    transition: filter 0.3s ease;
+}
+
+#nav3-video:hover #main-video {
+    filter: brightness(0.9);
+}
+
+/* Video Overlay */
+#video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent, rgba(0, 0, 0, 0.3));
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+#nav3-video:hover #video-overlay {
+    pointer-events: all;
+}
+
+/* Video Controls */
+#video-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 12px 20px;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    animation: slideUpControls 0.3s ease-out;
+}
+
+@keyframes slideUpControls {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.video-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.video-btn:hover {
+    background: rgba(40, 116, 240, 0.8);
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(40, 116, 240, 0.4);
+}
+
+.video-btn:active {
+    transform: scale(0.95);
+}
+
+.video-btn i {
+    transition: transform 0.3s ease;
+}
+
+.video-btn:hover i {
+    transform: scale(1.2);
 }
 
 /* ============================================
@@ -637,6 +729,10 @@ body {
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         gap: 15px;
     }
+
+    #main-video {
+        min-height: 350px;
+    }
 }
 
 /* Mobile Styles */
@@ -697,6 +793,21 @@ body {
     #nav3 {
         padding: 0 10px;
         margin: 15px 0;
+    }
+
+    #main-video {
+        min-height: 250px;
+    }
+
+    #video-controls {
+        padding: 10px 15px;
+        gap: 10px;
+    }
+
+    .video-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
     }
 
     #nav4-el h1,
@@ -779,6 +890,21 @@ body {
 
     #nav2 > div h1 {
         font-size: 10px;
+    }
+
+    #main-video {
+        min-height: 200px;
+    }
+
+    #video-controls {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+
+    .video-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
     }
 
     #nav4-el h1,
